@@ -102,13 +102,18 @@ class MoneyReceipt implements JsonSerializable{
 		list($total_rows)=$count_result->fetch_row();
 		$total_pages = ceil($total_rows /$perpage);
 		$top = ($page - 1)*$perpage;
-		$result=$db->query("select id,created_at,updated_at,customer_id,remark,receipt_total from {$tx}money_receipts $criteria limit $top,$perpage");
+		$result = $db->query("SELECT mr.id, mr.created_at, mr.updated_at, mr.customer_id, c.name AS customer_name, mr.remark, mr.receipt_total 
+		FROM {$tx}money_receipts mr 
+		JOIN {$tx}customers c ON mr.customer_id = c.id 
+		$criteria 
+		LIMIT $top,$perpage");
+
 		$html="<table class='table'>";
 			$html.="<tr><th colspan='3'><a class=\"btn btn-success\" href=\"moneyreceipt/create\">New Money Receipt</a></th></tr>";
 		if($action){
-			$html.="<tr><th>Id</th><th>Created At</th><th>Updated At</th><th>Customer Id</th><th>Remark</th><th>Receipt Total</th><th>Action</th></tr>";
+			$html.="<tr><th>Id</th><th>Created At</th><th>Updated At</th><th>Customer Name</th><th>Remark</th><th>Receipt Total</th><th>Action</th></tr>";
 		}else{
-			$html.="<tr><th>Id</th><th>Created At</th><th>Updated At</th><th>Customer Id</th><th>Remark</th><th>Receipt Total</th></tr>";
+			$html.="<tr><th>Id</th><th>Created At</th><th>Updated At</th><th>Customer Name</th><th>Remark</th><th>Receipt Total</th></tr>";
 		}
 		while($moneyreceipt=$result->fetch_object()){
 			$action_buttons = "";
@@ -119,7 +124,7 @@ class MoneyReceipt implements JsonSerializable{
 				$action_buttons.= action_button(["id"=>$moneyreceipt->id, "name"=>"Delete", "value"=>"Delete", "class"=>"danger", "url"=>"moneyreceipt/confirm/$moneyreceipt->id"]);
 				$action_buttons.= "</div></td>";
 			}
-			$html.="<tr><td>$moneyreceipt->id</td><td>$moneyreceipt->created_at</td><td>$moneyreceipt->updated_at</td><td>$moneyreceipt->customer_id</td><td>$moneyreceipt->remark</td><td>$moneyreceipt->receipt_total</td> $action_buttons</tr>";
+			$html.="<tr><td>$moneyreceipt->id</td><td>$moneyreceipt->created_at</td><td>$moneyreceipt->updated_at</td><td>$moneyreceipt->customer_name</td><td>$moneyreceipt->remark</td><td>$moneyreceipt->receipt_total</td> $action_buttons</tr>";
 		}
 		$html.="</table>";
 		$html.= pagination($page,$total_pages);
@@ -129,14 +134,19 @@ class MoneyReceipt implements JsonSerializable{
 		global $db,$tx;
 
 		
-		$result =$db->query("select id,created_at,updated_at,customer_id,remark,receipt_total from {$tx}money_receipts where id={$id}");
+			$result = $db->query("SELECT mr.id, mr.created_at, mr.updated_at, mr.customer_id, c.name AS customer_name, mr.remark, mr.receipt_total 
+		FROM {$tx}money_receipts mr 
+		JOIN {$tx}customers c ON mr.customer_id = c.id 
+		WHERE mr.id = {$id}");
+
+
 		$moneyreceipt=$result->fetch_object();
 		$html="<table class='table'>";
 		$html.="<tr><th colspan=\"2\">MoneyReceipt Details</th></tr>";
 		$html.="<tr><th>Id</th><td>$moneyreceipt->id</td></tr>";
 		$html.="<tr><th>Created At</th><td>$moneyreceipt->created_at</td></tr>";
 		$html.="<tr><th>Updated At</th><td>$moneyreceipt->updated_at</td></tr>";
-		$html.="<tr><th>Customer Id</th><td>$moneyreceipt->customer_id</td></tr>";
+		$html.="<tr><th>Customer Name</th><td>$moneyreceipt->customer_name</td></tr>";
 		$html.="<tr><th>Remark</th><td>$moneyreceipt->remark</td></tr>";
 		$html.="<tr><th>Receipt Total</th><td>$moneyreceipt->receipt_total</td></tr>";
 

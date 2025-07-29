@@ -121,12 +121,12 @@ class Invoice extends Model implements JsonSerializable{
 		list($total_rows)=$count_result->fetch_row();
 		$total_pages = ceil($total_rows /$perpage);
 		$top = ($page - 1)*$perpage;
-		$result=$db->query("select id,customer_id,created_at,remark,payment_term,updated_at,invoice_total,paid_total,previous_due from {$tx}invoices $criteria limit $top,$perpage");
+		$result=$db->query("select i.id,i.customer_id,c.name As customer_name, i.created_at,i.remark,i.payment_term,i.updated_at,i.invoice_total,i.paid_total,previous_due from {$tx}invoices i join {$tx}customers c on i.customer_id=c.id $criteria limit $top,$perpage");
 		$html="<table class='table'>";
 		if($action){
-			$html.="<tr><th>Id</th><th>Customer Id</th><th>Created At</th><th>Remark</th><th>Payment Term</th><th>Updated At</th><th>Invoice Total</th><th>Paid Total</th><th>Previous Due</th><th>Action</th></tr>";
+			$html.="<tr><th>Id</th><th>Customer Name</th><th>Created At</th><th>Remark</th><th>Payment Term</th><th>Updated At</th><th>Invoice Total</th><th>Paid Total</th><th>Previous Due</th><th>Action</th></tr>";
 		}else{
-			$html.="<tr><th>Id</th><th>Customer Id</th><th>Created At</th><th>Remark</th><th>Payment Term</th><th>Updated At</th><th>Invoice Total</th><th>Paid Total</th><th>Previous Due</th></tr>";
+			$html.="<tr><th>Id</th><th>Customer Name</th><th>Created At</th><th>Remark</th><th>Payment Term</th><th>Updated At</th><th>Invoice Total</th><th>Paid Total</th><th>Previous Due</th></tr>";
 		}
 		while($invoice=$result->fetch_object()){
 			$action_buttons = "";
@@ -137,7 +137,7 @@ class Invoice extends Model implements JsonSerializable{
 				$action_buttons.= Event::button(["name"=>"delete", "value"=>"Delete", "class"=>"btn btn-danger", "route"=>"invoice/confirm/$invoice->id"]);
 				$action_buttons.= "</div></td>";
 			}
-			$html.="<tr><td>$invoice->id</td><td>$invoice->customer_id</td><td>$invoice->created_at</td><td>$invoice->remark</td><td>$invoice->payment_term</td><td>$invoice->updated_at</td><td>$invoice->invoice_total</td><td>$invoice->paid_total</td><td>$invoice->previous_due</td> $action_buttons</tr>";
+			$html.="<tr><td>$invoice->id</td><td>$invoice->customer_name</td><td>$invoice->created_at</td><td>$invoice->remark</td><td>$invoice->payment_term</td><td>$invoice->updated_at</td><td>$invoice->invoice_total</td><td>$invoice->paid_total</td><td>$invoice->previous_due</td> $action_buttons</tr>";
 		}
 		$html.="</table>";
 		$html.= pagination($page,$total_pages);
@@ -145,12 +145,12 @@ class Invoice extends Model implements JsonSerializable{
 	}
 	static function html_row_details($id){
 		global $db,$tx,$base_url;
-		$result =$db->query("select id,customer_id,created_at,remark,payment_term,updated_at,invoice_total,paid_total,previous_due from {$tx}invoices where id={$id}");
+		$result =$db->query("select i.id,i.customer_id, c.name As customer_name,i.created_at,i.remark,i.payment_term,i.updated_at,i.invoice_total,i.paid_total,i.previous_due from {$tx}invoices i join {$tx}customers c on i.customer_id=c.id where i.id={$id}");
 		$invoice=$result->fetch_object();
 		$html="<table class='table'>";
 		$html.="<tr><th colspan=\"2\">Invoice Show</th></tr>";
 		$html.="<tr><th>Id</th><td>$invoice->id</td></tr>";
-		$html.="<tr><th>Customer Id</th><td>$invoice->customer_id</td></tr>";
+		$html.="<tr><th>Customer Name</th><td>$invoice->customer_name</td></tr>";
 		$html.="<tr><th>Created At</th><td>$invoice->created_at</td></tr>";
 		$html.="<tr><th>Remark</th><td>$invoice->remark</td></tr>";
 		$html.="<tr><th>Payment Term</th><td>$invoice->payment_term</td></tr>";

@@ -7,7 +7,7 @@ Page::open();
       $page=isset($_GET["page"])?$_GET["page"]:1;
      echo MoneyReceipt::html_table($page);
 
-     Card::close();
+   Card::close();
   Col::close();
  Row::close();
 Page::close();
