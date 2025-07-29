@@ -7,11 +7,17 @@
       </div>
     </div>
     <div class="card-body">
+<<<<<<< HEAD
       <p class="login-box-msg">Sign in to start your session</p>
       <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" autocomplete="off">
         
+=======
+      <p class="login-box-msg">Sign in to start your session</p>       
+      <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post" autocomplete="off">
+
+>>>>>>> 117d8b9e25007b45fb9f0e7fc55c33ef9117707b
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="username" id="txtUsername" placeholder="User name">
+          <input type="text" class="form-control" value="anayet" name="username" id="txtUsername" placeholder="User name">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -20,7 +26,7 @@
         </div>
 
         <div class="input-group mb-3">
-          <input type="password" class="form-control" name="password" id="txtPassword" placeholder="Password">
+          <input type="password" class="form-control" value="111111" name="password" id="txtPassword" placeholder="Password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -47,6 +53,7 @@
   </div>
 </div>
 
+<<<<<<< HEAD
 <!-- ✅ এই JS অংশটি অবশ্যই body এর নিচে বা শেষে রাখো -->
 <script>
   window.onload = function() {
@@ -54,3 +61,13 @@
     document.getElementById('txtPassword').value = '111111';
   };
 </script>
+=======
+
+<script>
+
+  window.onload=function(){
+    document.getElementById("txtUsername").value="anayet";
+    document. getElementById("txtPassword").value="111111";
+  };
+</script>
+>>>>>>> 117d8b9e25007b45fb9f0e7fc55c33ef9117707b
