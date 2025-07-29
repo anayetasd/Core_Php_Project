@@ -7,17 +7,19 @@
     </div>
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>       
-      <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
+      <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post" autocomplete="off">
+
         <div class="input-group mb-3">
-          <input type="text" class="form-control" name="username" id="txtUsername" placeholder="User name">
+          <input type="text" class="form-control" value="anayet" name="username" id="txtUsername" placeholder="User name">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
             </div>
           </div>
         </div>
+
         <div class="input-group mb-3">
-          <input type="password" class="form-control" name="password" id="txtPassword" placeholder="Password">
+          <input type="password" class="form-control" value="111111" name="password" id="txtPassword" placeholder="Password">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -55,4 +57,12 @@
   </div>
   <!-- /.card -->
 </div>
-<!-- /.login-box -->
+
+
+<script>
+
+  window.onload=function(){
+    document.getElementById("txtUsername").value="anayet";
+    document. getElementById("txtPassword").value="111111";
+  };
+</script>
