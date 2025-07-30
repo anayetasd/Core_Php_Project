@@ -6,16 +6,12 @@
         <?php echo isset($error) ? $error : ""; ?>
       </div>
     </div>
+
     <div class="card-body">
-<<<<<<< HEAD
+
       <p class="login-box-msg">Sign in to start your session</p>
       <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" autocomplete="off">
-        
-=======
-      <p class="login-box-msg">Sign in to start your session</p>       
-      <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post" autocomplete="off">
 
->>>>>>> 117d8b9e25007b45fb9f0e7fc55c33ef9117707b
         <div class="input-group mb-3">
           <input type="text" class="form-control" value="anayet" name="username" id="txtUsername" placeholder="User name">
           <div class="input-group-append">
